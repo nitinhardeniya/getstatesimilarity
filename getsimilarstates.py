@@ -1,6 +1,7 @@
 
 import sys
-from sklearn.metrics.pairwise import cosine_similarity		
+from sklearn.metrics.pairwise import cosine_similarity	
+from sklearn.metrics.pairwise import euclidean_distances	
 import pickle
 
 """
@@ -52,7 +53,7 @@ def readdata(datafile,header=True):
 
 """
 Given the data file will call readdata and calculate the 
-pairwise cosine similarities using sklearn.
+pairwise euclidean_distances  using sklearn.
 
 http://scikit-learn.org/stable/modules/metrics.html#metrics
 
@@ -84,7 +85,7 @@ def calculate_sim(datafile):
 	v = DictVectorizer(sparse=False)
 
 	X = v.fit_transform(D)
-	similarities = cosine_similarity(X)
+	similarities = euclidean_distances(X)
 	state_sim_dict={}
 	no_of_similar_states=3
 
@@ -92,7 +93,7 @@ def calculate_sim(datafile):
 		pairwise_sim=[]
 		for j in range(0,len(similarities)-1):
 			pairwise_sim.append((j,similarities[i][j]))
-		for idx,s in sorted(pairwise_sim,key=lambda x: x[1],reverse=True):
+		for idx,s in sorted(pairwise_sim,key=lambda x: x[1]):
 			if idx==i:
 				continue
 			if i in state_sim_dict:
